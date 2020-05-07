@@ -103,19 +103,19 @@ We have our setup for the task, now lets move to automation process
 
 Let's list down all the tasks we have to do
 
-- Setup a httpd container holding the production website
-  - Make a persistent storage that will hold the production code for the container
+- [ ] Setup a httpd container holding the production website
+  - [ ] Make a persistent storage that will hold the production code for the container
  
-- Setup a httpd container holding the development website for testing
-  - Make a persistent storage that will hold the production code for the container
+- [ ] Setup a httpd container holding the development website for testing
+  - [ ] Make a persistent storage that will hold the production code for the container
  
-- ***Job 1*** : Make a jenkins job which pulls the code from master branch and deploy it in production httpd container
+- [ ] ***Job 1*** : Make a jenkins job which pulls the code from master branch and deploy it in production httpd container
 
-- ***Job 2*** : Jenkins job which will pull from dev branch and deploy the code in development testing httpd container, an email will be sent from here to QAT for further testing
+- [ ] ***Job 2*** : Jenkins job which will pull from dev branch and deploy the code in development testing httpd container, an email will be sent from here to QAT for further testing
 
-- ***Job 3*** : This job will be triggered by QAT ( quality assurance team ) by a remote URL that you will provide to them , this job will merge dev branch into master branch and call Job 1 again
+- [ ] ***Job 3*** : This job will be triggered by QAT ( quality assurance team ) by a remote URL that you will provide to them , this job will merge dev branch into master branch and call Job 1 again
 
-- **Integrate all the things together and run it**
+- [ ] **Integrate all the things together and run it**
 
 # Let's Start !
 
@@ -448,3 +448,27 @@ curl --user "(jenkins_user_name:Jenkins_password)" (base system IP):8080/job/Mer
 This will trigger the last Job that is to **merge the dev and master branch together** and then push the code back in the repo
 
 This push event will again trigger **GetMasterBranch** and deploy the container or change the persistent storage with the new code
+
+# Kudos ! If you made it this far, we have done
+
+
+- [x] Setup a httpd container holding the production website
+  - [x] Make a persistent storage that will hold the production code for the container
+ 
+- [x] Setup a httpd container holding the development website for testing
+  - [x] Make a persistent storage that will hold the production code for the container
+ 
+- [x] ***Job 1*** : Make a jenkins job which pulls the code from master branch and deploy it in production httpd container
+
+- [x] ***Job 2*** : Jenkins job which will pull from dev branch and deploy the code in development testing httpd container, an email will be sent from here to QAT for further testing
+
+- [x] ***Job 3*** : This job will be triggered by QAT ( quality assurance team ) by a remote URL that you will provide to them , this job will merge dev branch into master branch and call Job 1 again
+
+- [x] **Integrate all the things together and run it**
+
+# Trouble Shooting Tips :
+
+- Check if ngrok is working
+- See the console logs of failed jobs
+- use the `sudo` for permission for jenkins user
+- Check if **Authentication Token** is correct and the **remote URL** to trigger the job is correct
