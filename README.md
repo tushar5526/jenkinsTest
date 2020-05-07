@@ -444,6 +444,9 @@ git push
 ```
 curl --user "(jenkins_user_name:Jenkins_password)" (base system IP):8080/job/MergeDevInMaster/build?token=build
 ```
+![DashBoard](https://github.com/tushar5526/jenkinsTest/blob/master/webhookbuild.PNG)
+
+See your webhook if it has run successfully !
 
 This will trigger the last Job that is to **merge the dev and master branch together** and then push the code back in the repo
 
@@ -472,3 +475,4 @@ This push event will again trigger **GetMasterBranch** and deploy the container 
 - See the console logs of failed jobs
 - use the `sudo` for permission for jenkins user
 - Check if **Authentication Token** is correct and the **remote URL** to trigger the job is correct
+- Check the webhook and its associated error
