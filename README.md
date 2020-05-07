@@ -449,7 +449,7 @@ This will trigger the last Job that is to **merge the dev and master branch toge
 
 This push event will again trigger **GetMasterBranch** and deploy the container or change the persistent storage with the new code
 
-# Kudos ! If you made it this far, we have done
+# Kudos ! If you made it this far, take a look at what you have achieved
 
 
 - [x] Setup a httpd container holding the production website
