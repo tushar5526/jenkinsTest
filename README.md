@@ -209,7 +209,7 @@ sudo docker  run -dit -p 8082:80 -v /vol/masterBranch:/usr/local/apache2/htdocs/
 
 - **--name masterContainer httpd** : run a httpd docker image with the name *'master Container'*
 
-***- [x] Job 1 : Make a jenkins job which pulls the code from master branch and deploy it in production httpd container***
+- [x] ***Job 1 : Make a jenkins job which pulls the code from master branch and deploy it in production httpd container***
 
 
 ## Lets head to JOB 2:
