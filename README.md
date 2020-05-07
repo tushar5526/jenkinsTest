@@ -19,7 +19,7 @@ cd /project
 git clone https://www.github.com<your user name>/JenkinsTest.git
 ```
 
-Suppose we are working on a web developmen project so lets make files in the project
+Suppose we are working on a web development project so lets make files in the project
 
 ```
 touch index.html
@@ -103,19 +103,19 @@ We have our setup for the task, now lets move to automation process
 
 Let's list down all the tasks we have to do
 
-- Setup a httpd container holding the production website
-  - Make a persistent storage that will hold the production code for the container
+- [ ] Setup a httpd container holding the production website
+  - [ ] Make a persistent storage that will hold the production code for the container
  
-- Setup a httpd container holding the development website for testing
-  - Make a persistent storage that will hold the production code for the container
+- [ ] Setup a httpd container holding the development website for testing
+  - [ ] Make a persistent storage that will hold the production code for the container
  
-- ***Job 1*** : Make a jenkins job which pulls the code from master branch and deploy it in production httpd container
+- [ ] ***Job 1*** : Make a jenkins job which pulls the code from master branch and deploy it in production httpd container
 
-- ***Job 2*** : Jenkins job which will pull from dev branch and deploy the code in development testing httpd container, an email will be sent from here to QAT for further testing
+- [ ] ***Job 2*** : Jenkins job which will pull from dev branch and deploy the code in development testing httpd container, an email will be sent from here to QAT for further testing
 
-- ***Job 3*** : This job will be triggered by QAT ( quality assurance team ) by a remote URL that you will provide to them , this job will merge dev branch into master branch and call Job 1 again
+- [ ] ***Job 3*** : This job will be triggered by QAT ( quality assurance team ) by a remote URL that you will provide to them , this job will merge dev branch into master branch and call Job 1 again
 
-- **Integrate all the things together and run it**
+- [ ] **Integrate all the things together and run it**
 
 # Let's Start !
 
@@ -132,7 +132,7 @@ docker pull httpd
 ```
 mkdir /vol/productionStorage
 ``` 
--[x] **Setup persistent storage for container holding the production website**
+- [x] **Setup persistent storage for container holding the production website**
 
 ## Now lets move to the next task.
 - [ ] Setup persistent storage for container holding the development website
@@ -149,8 +149,11 @@ mkdir \vol\devContainer
 - [ ] **Job 1 : Make a jenkins job which pulls the code from master branch and deploy it in production httpd container**
 
 - Select **New Item** in Jenkins dashboard
+![DashBoard](https://github.com/tushar5526/jenkinsTest/blob/master/newItem.PNG)
 
 - Name it **GetMasterBranch**
+
+![DashBoard](https://github.com/tushar5526/jenkinsTest/blob/master/GetMasterBranchName.PNG)
 
 - Select defaults and then OK
 
@@ -160,6 +163,8 @@ mkdir \vol\devContainer
 
 - In **General Tab** select **GitHub Project** and add your project URL
 
+![DashBoard](https://github.com/tushar5526/jenkinsTest/blob/master/masterGeneral.PNG)
+
 - Head to **Source Code Management**
 
   - Select **Git** radio button and Enter the **Repository URL**
@@ -168,6 +173,8 @@ mkdir \vol\devContainer
   - Head to **Build Triggers**
 
    - Select **GitHub hook trigger for GITScm polling** ( we will get into this later, this allows github to trigger this job )
+
+![DashBoard](https://github.com/tushar5526/jenkinsTest/blob/master/buildTriggerMaster.PNG)
 
 - Head to Build
 
@@ -183,6 +190,7 @@ sudo docker run -dit -p 8082:80 -v /vol/masterBranch:/usr/local/apache2/htdocs/ 
 fi
 sudo cp -f * /vol/masterBranch/
 ```
+![DashBoard](https://github.com/tushar5526/jenkinsTest/blob/master/buildMaster.PNG)
 - **Save**
 
 ### Lets talk about the command we wrote in the Execute shell
@@ -201,7 +209,7 @@ sudo docker  run -dit -p 8082:80 -v /vol/masterBranch:/usr/local/apache2/htdocs/
 
 - **--name masterContainer httpd** : run a httpd docker image with the name *'master Container'*
 
-***- [x] Job 1 : Make a jenkins job which pulls the code from master branch and deploy it in production httpd container***
+- [x] ***Job 1 : Make a jenkins job which pulls the code from master branch and deploy it in production httpd container***
 
 
 ## Lets head to JOB 2:
@@ -225,10 +233,12 @@ sudo cp -f * /vol/devBranch/
 
 *The command is same as for the job 1 but we have change the name and persistent storage location
 
-- Head to Post-Build Actions
-  - Select Add post-build action dropdown and select E-mail notification
+- Head to **Post-Build Actions**
+  - Select **Add post-build action dropdown and select E-mail notification**
   - Enter your QTA team tester's ID in the Recipients
-*
+  
+![DashBoard](https://github.com/tushar5526/jenkinsTest/blob/master/devBranchPostBuild.PNG)
+
 This will mail the tester that the developer has pushed to **dev branch** and now its the testing engineer duty to approve the merge and check the site in **development docker container is working fine**
 
 *( we are assuming that the whole company works on a single network )
@@ -252,6 +262,8 @@ If everything is working fine in the development container, then the QTA guy wil
   - You will be prompted with **authentication token**, authentication Token is used so that only people having this token can trigger the job
   - Set it to **build**
   
+  ![DashBoard](https://github.com/tushar5526/jenkinsTest/blob/master/mergeDevInMaster1.PNG)
+  
 - A URL will be shown there as follows : ***JENKINS_URL/job/MergeDevInMaster/build?token=TOKEN_NAME***
 
 - This is the URL that the QAT will already have, here
@@ -265,6 +277,8 @@ This URL should be used as follows by the testing team
 ```
 curl --user "(jenkins_user_name:Jenkins_password)" (base system IP):8080/job/MergeDevInMaster/build?token=build
 ```
+
+![DashBoard](https://github.com/tushar5526/jenkinsTest/blob/master/mergeDevInMasterbuild.PNG)
 
 ***Now we have to make this job, merge the two branches ONE way would be to use some additional plugin or a bash script placed in the project folder (folder where index.html is placed )***
 
@@ -304,6 +318,8 @@ Download ngrok from internet, Extract it and then run following command in RHEL 
 
 You will get this output in terminal with a weird looking URL ending with io, we will use that IP to connect our jenkins to github
 
+![DashBoard](https://github.com/tushar5526/jenkinsTest/blob/master/ngrokip.PNG)
+
 This will connect our jenkins on ***private network to Internet***
 
 Now,
@@ -311,6 +327,7 @@ Now,
 - Head over to your project on **GitHub**
 - Go to **Settings**
 - From the menu in the left select **Webhooks**
+![DashBoard](https://github.com/tushar5526/jenkinsTest/blob/master/webhook.PNG)
 - Click on add **webhook**
 - In the **Payload URL** add the URL ngrok provided to you with following extra edit:
 ```
@@ -319,6 +336,8 @@ https://78871dad.ngrok.io/github-webhook/
 ```
 - Select **Content type** to **application/json**
 - Click **Update Webhook**
+
+![DashBoard](https://github.com/tushar5526/jenkinsTest/blob/master/webhookurl.PNG)
 
 ***NOTE : ngrok should be running for always for using GIT triggers***
 
@@ -368,6 +387,8 @@ root ALL=(ALL) ALL
 ```
 jenkins ALL=(ALL) NOPASSWD: ALL
 ```
+
+![DashBoard](https://github.com/tushar5526/jenkinsTest/blob/master/sudoers.PNG)
 
 (For simplicity we are giving all root account power to jenkins user too or jenkins can behave as pseudo root )
 
@@ -427,3 +448,27 @@ curl --user "(jenkins_user_name:Jenkins_password)" (base system IP):8080/job/Mer
 This will trigger the last Job that is to **merge the dev and master branch together** and then push the code back in the repo
 
 This push event will again trigger **GetMasterBranch** and deploy the container or change the persistent storage with the new code
+
+# Kudos ! If you made it this far, take a look at what you have achieved
+
+
+- [x] Setup a httpd container holding the production website
+  - [x] Make a persistent storage that will hold the production code for the container
+ 
+- [x] Setup a httpd container holding the development website for testing
+  - [x] Make a persistent storage that will hold the production code for the container
+ 
+- [x] ***Job 1*** : Make a jenkins job which pulls the code from master branch and deploy it in production httpd container
+
+- [x] ***Job 2*** : Jenkins job which will pull from dev branch and deploy the code in development testing httpd container, an email will be sent from here to QAT for further testing
+
+- [x] ***Job 3*** : This job will be triggered by QAT ( quality assurance team ) by a remote URL that you will provide to them , this job will merge dev branch into master branch and call Job 1 again
+
+- [x] **Integrate all the things together and run it**
+
+# Trouble Shooting Tips :
+
+- Check if ngrok is working
+- See the console logs of failed jobs
+- use the `sudo` for permission for jenkins user
+- Check if **Authentication Token** is correct and the **remote URL** to trigger the job is correct
