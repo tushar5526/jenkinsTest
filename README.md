@@ -31,10 +31,11 @@ Hello, I am the content in master branch index.html'
 Now we have to add the file and commit the changes
 
 ```
+git add index.html
 git commit -m 'Added index.html'
 ```
 
-Now this commit sits on our local repo, and no changes will be shown in remote repository To send this commit on our remote repository, we have to push it in the github repository
+Now this commit sits on our local repo, and no changes will be shown in remote repository, to send this commit on our remote repository, we have to push it in the github repository
 
 ```
 git push origin master
